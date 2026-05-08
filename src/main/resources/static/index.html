@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planning & Experience Engine | PromptWars</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Tailwind Config for Dark Mode & Custom Colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            900: '#134e4a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h1 class="text-xl font-bold tracking-tight">AI Travel Engine</h1>
+            </div>
+            <nav class="flex gap-4 items-center">
+                <button id="themeToggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle Dark Mode">
+                    <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                </button>
+                <button id="logoutBtn" class="hidden text-sm font-medium text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors">Logout</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Auth Section -->
+        <section id="authSection" class="max-w-md mx-auto mt-12 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 animate-fade-in-up">
+            <h2 class="text-2xl font-bold mb-6 text-center">Sign In</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                    <input type="text" id="username" value="admin" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-4 py-2">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                    <input type="password" id="password" value="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-4 py-2">
+                </div>
+                <button type="submit" class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors">
+                    Sign In
+                </button>
+                <p id="loginError" class="text-red-500 text-sm hidden mt-2"></p>
+            </form>
+        </section>
+
+        <!-- Travel Planning Section -->
+        <section id="plannerSection" class="hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Form -->
+                <div class="lg:col-span-1 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 h-fit sticky top-24">
+                    <h2 class="text-xl font-bold mb-4">Plan Your Trip</h2>
+                    <form id="planForm" class="space-y-4">
+                        <div>
+                            <label for="destination" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Destination</label>
+                            <input type="text" id="destination" value="Chikkamagalur, Karnataka" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="durationDays" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Days</label>
+                                <input type="number" id="durationDays" value="3" min="1" max="30" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2">
+                            </div>
+                            <div>
+                                <label for="travelers" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Travelers</label>
+                                <input type="number" id="travelers" value="2" min="1" max="20" required class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="budget" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Budget</label>
+                            <select id="budget" class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2">
+                                <option value="Budget">Budget</option>
+                                <option value="Moderate" selected>Moderate</option>
+                                <option value="Luxury">Luxury</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Interests</label>
+                            <div class="space-y-2">
+                                <label class="inline-flex items-center"><input type="checkbox" name="interest" value="nature" checked class="rounded text-brand-600 focus:ring-brand-500"><span class="ml-2 text-sm">Nature</span></label><br>
+                                <label class="inline-flex items-center"><input type="checkbox" name="interest" value="culture" checked class="rounded text-brand-600 focus:ring-brand-500"><span class="ml-2 text-sm">Culture & History</span></label><br>
+                                <label class="inline-flex items-center"><input type="checkbox" name="interest" value="food" class="rounded text-brand-600 focus:ring-brand-500"><span class="ml-2 text-sm">Food & Dining</span></label><br>
+                                <label class="inline-flex items-center"><input type="checkbox" name="interest" value="adventure" class="rounded text-brand-600 focus:ring-brand-500"><span class="ml-2 text-sm">Adventure</span></label>
+                            </div>
+                        </div>
+                        <button type="submit" id="generateBtn" class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-all disabled:opacity-50">
+                            <span>Generate Itinerary</span>
+                            <svg id="loadingSpinner" class="hidden animate-spin ml-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        </button>
+                        <p id="planError" class="text-red-500 text-sm hidden"></p>
+                    </form>
+                </div>
+
+                <!-- Result -->
+                <div class="lg:col-span-2">
+                    <div id="resultContainer" class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 min-h-[500px] hidden prose dark:prose-invert max-w-none">
+                        <!-- Itinerary generated by Gemini will be injected here -->
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="bg-white dark:bg-gray-800 p-12 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center min-h-[500px] text-center">
+                        <svg class="w-20 h-20 text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">No Itinerary Yet</h3>
+                        <p class="text-gray-500 dark:text-gray-400 mt-2">Fill out your preferences on the left and hit generate to let Gemini plan your perfect trip.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
