@@ -1,19 +1,15 @@
-# Stage 1: Build the application
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+# Build Stage
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml .
-# Download dependencies first to leverage Docker cache
-RUN mvn dependency:go-offline -B
-COPY src ./src
-RUN mvn package -DskipTests
+COPY . .
+# We use -Dmaven.compiler.release=17 here because this image definitely supports it
+RUN mvn clean package -DskipTests
 
-# Stage 2: Minimal run environment
+# Run Stage
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=builder /app/target/travel-0.0.1-SNAPSHOT.jar app.jar
-
-# Cloud Run performance optimizations for JVM
-ENV JAVA_OPTS="-XX:TieredStopAtLevel=1 -Xverify:none -XX:+UseSerialGC -Xmx512m -Djava.security.egd=file:/dev/./urandom"
-
+# This picks up the JAR regardless of the name
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
+# Use shell form so ${PORT} is expanded at runtime by the shell
+CMD ["sh", "-c", "java -Dserver.port=${PORT:-8080} -Dserver.address=0.0.0.0 -jar app.jar"]

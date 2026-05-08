@@ -20,7 +20,7 @@ public class TravelController {
     @Autowired
     private GeminiService geminiService;
 
-    @Autowired
+    @Autowired(required = false)
     private TravelPlanRepository travelPlanRepository;
 
     @PostMapping("/plan")
@@ -33,7 +33,7 @@ public class TravelController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String username = (auth != null && auth.getName() != null) ? auth.getName() : "anonymous";
 
-            // Save to Firestore
+            // Build the plan
             TravelPlan plan = new TravelPlan();
             plan.setId(UUID.randomUUID().toString());
             plan.setDestination(request.getDestination());
@@ -44,8 +44,11 @@ public class TravelController {
             plan.setItinerary(itineraryHtml);
             plan.setUsername(username);
 
-            // Using block for simplicity in this REST controller (can be fully reactive if desired)
-            return travelPlanRepository.save(plan).block();
+            // Save to Firestore if available
+            if (travelPlanRepository != null) {
+                return travelPlanRepository.save(plan).block();
+            }
+            return plan;
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate travel plan: " + e.getMessage(), e);
@@ -54,6 +57,9 @@ public class TravelController {
 
     @GetMapping("/my-plans")
     public Flux<TravelPlan> getMyPlans() {
+        if (travelPlanRepository == null) {
+            return Flux.empty();
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = (auth != null && auth.getName() != null) ? auth.getName() : "anonymous";
         return travelPlanRepository.findByUsername(username);
